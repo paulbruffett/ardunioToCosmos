@@ -13,7 +13,7 @@ import azure.cosmos.http_constants as http_constants
 import os
 import tempfile
 
-
+#get cosmos credentials
 url = os.environ.get('cosmosurl')
 key = os.environ.get('cosmoskey')
 blobstring = os.environ.get('blobstring')
