@@ -10,7 +10,7 @@ import azure.functions as func
 import azure.cosmos.cosmos_client as cosmos_client
 import os
 import tempfile
-from datetime import datetime
+#from datetime import datetime
 
 #get cosmos credentials and setup cosmos connection
 url = os.environ.get('cosmosurl')
@@ -41,16 +41,15 @@ def main(mytimer: func.TimerRequest) -> None:
             reader.close()
             for i in measures:
                 payload = json.loads(i['Body'])
-                dt_object = datetime.fromtimestamp(payload['timestamp'])
+                #dt_object = datetime.fromtimestamp(payload['timestamp'])
                 container.upsert_item(
                 {
                     'id': payload['deviceId']+str(payload['timestamp']),
                     'temp': payload['temp'],
                     'timestamp': payload['timestamp'],
-                    'humidity': payload['humidity'],
+                    'humidity': payload['humidity'],   
                     'pressure': payload['pressure'],
-                    'illuminance' : payload['illuminance'],
-                    'date':{'month':dt_object.month, 'day':dt_object.day,'year':dt_object.year}
+                    'illuminance' : payload['illuminance']
                 }
             )
         bcontainer.delete_blob(blob)
