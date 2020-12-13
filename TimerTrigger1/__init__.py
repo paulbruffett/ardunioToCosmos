@@ -10,19 +10,19 @@ import azure.functions as func
 import azure.cosmos.cosmos_client as cosmos_client
 import os
 import tempfile
+from datetime import datetime
 
-#get cosmos credentials
+#get cosmos credentials and setup cosmos connection
 url = os.environ.get('cosmosurl')
 key = os.environ.get('cosmoskey')
-blobstring = os.environ.get('blobstring')
 client = cosmos_client.CosmosClient(url, {'masterKey': key})
-
 database_name = 'arduino'
 database = client.get_database_client(database_name)
 container_name = 'temps'
 container = database.get_container_client(container_name)
 
-
+#setup blob store connection
+blobstring = os.environ.get('blobstring')
 bcontainer = ContainerClient.from_connection_string(conn_str=blobstring
                                                    , container_name="readings")
 
@@ -41,6 +41,7 @@ def main(mytimer: func.TimerRequest) -> None:
             reader.close()
             for i in measures:
                 payload = json.loads(i['Body'])
+                dt_object = datetime.fromtimestamp(payload['timestamp'])
                 container.upsert_item(
                 {
                     'id': payload['deviceId']+str(payload['timestamp']),
@@ -48,7 +49,8 @@ def main(mytimer: func.TimerRequest) -> None:
                     'timestamp': payload['timestamp'],
                     'humidity': payload['humidity'],
                     'pressure': payload['pressure'],
-                    'illuminance' : payload['illuminance']
+                    'illuminance' : payload['illuminance'],
+                    'date':{'month':dt_object.month, 'day':dt_object.day,'year':dt_object.year}
                 }
             )
         bcontainer.delete_blob(blob)
