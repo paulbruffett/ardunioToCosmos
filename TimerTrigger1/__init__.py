@@ -22,10 +22,11 @@ database_name = 'arduino'
 database = client.get_database_client(database_name)
 container_name = 'temps'
 container = database.get_container_client(container_name)"""
-bcontainer = ContainerClient.from_connection_string(conn_str=blobstring
+#bcontainer = ContainerClient.from_connection_string(conn_str=blobstring
                                                    , container_name="readings")
-"""def main(mytimer: func.TimerRequest) -> None:
-    blob_list = bcontainer.list_blobs()
+def main(mytimer: func.TimerRequest) -> None:
+    None
+ """   blob_list = bcontainer.list_blobs()
     for blob in blob_list:
         logging.info(blob.name + '\n')
         bc = bcontainer.get_blob_client(blob)
