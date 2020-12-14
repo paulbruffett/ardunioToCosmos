@@ -40,7 +40,7 @@ def main(mytimer: func.TimerRequest) -> None:
             reader.close()
             for i in measures:
                 payload = json.loads(i['Body'])
-                dt_object = datetime.fromtimestamp(i['timestamp'])
+                dt_object = datetime.fromtimestamp(payload['timestamp'])
                 container.upsert_item(
                 {
                     'id': payload['deviceId']+str(payload['timestamp']),
