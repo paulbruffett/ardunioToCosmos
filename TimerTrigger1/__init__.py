@@ -8,8 +8,6 @@ import copy
 import json
 import azure.functions as func
 import azure.cosmos.cosmos_client as cosmos_client
-import azure.cosmos.errors as errors
-import azure.cosmos.http_constants as http_constants
 import os
 import tempfile
 from datetime import datetime
