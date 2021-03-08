@@ -17,8 +17,11 @@ url = os.environ.get('cosmosurl')
 key = os.environ.get('cosmoskey')
 blobstring = os.environ.get('blobstring')
 client = cosmos_client.CosmosClient(url, {'masterKey': key})
+
+#change to your DB
 database_name = 'arduino'
 database = client.get_database_client(database_name)
+#change to your container
 container_name = 'temps'
 container = database.get_container_client(container_name)
 bcontainer = ContainerClient.from_connection_string(conn_str=blobstring
